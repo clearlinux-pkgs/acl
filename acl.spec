@@ -6,10 +6,10 @@
 #
 Name     : acl
 Version  : 2.2.53
-Release  : 35
+Release  : 36
 URL      : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.2.53.tar.gz
 Source0  : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.2.53.tar.gz
-Source1 : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.2.53.tar.gz.sig
+Source1  : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.2.53.tar.gz.sig
 Summary  : A library for POSIX Access Control Lists
 Group    : Development/Tools
 License  : GPL-2.0+ LGPL-2.1
@@ -115,6 +115,7 @@ man components for the acl package.
 
 %prep
 %setup -q -n acl-2.2.53
+cd %{_builddir}/acl-2.2.53
 pushd ..
 cp -a acl-2.2.53 build32
 popd
@@ -124,14 +125,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1568829855
+export SOURCE_DATE_EPOCH=1604364426
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
+export FCFLAGS="$FFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
+export FFLAGS="$FFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
 export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
 %configure --disable-static --enable-nls \
 --libexecdir=%{_libdir} \
@@ -159,11 +160,11 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1568829855
+export SOURCE_DATE_EPOCH=1604364426
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/acl
-cp doc/COPYING %{buildroot}/usr/share/package-licenses/acl/doc_COPYING
-cp doc/COPYING.LGPL %{buildroot}/usr/share/package-licenses/acl/doc_COPYING.LGPL
+cp %{_builddir}/acl-2.2.53/doc/COPYING %{buildroot}/usr/share/package-licenses/acl/b0d007e44cc4ad116e706e639fe38bfdc15a00a3
+cp %{_builddir}/acl-2.2.53/doc/COPYING.LGPL %{buildroot}/usr/share/package-licenses/acl/e101765734390d664b59325b2d644d80d9a6bd9a
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -253,8 +254,8 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/acl/doc_COPYING
-/usr/share/package-licenses/acl/doc_COPYING.LGPL
+/usr/share/package-licenses/acl/b0d007e44cc4ad116e706e639fe38bfdc15a00a3
+/usr/share/package-licenses/acl/e101765734390d664b59325b2d644d80d9a6bd9a
 
 %files man
 %defattr(0644,root,root,0755)
