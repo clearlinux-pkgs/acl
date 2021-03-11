@@ -1,5 +1,4 @@
- --enable-nls 
- --libexecdir=%{_libdir} 
- --disable-static 
- --enable-shared
-
+--enable-nls
+--libexecdir=/usr/lib64
+--disable-static
+--enable-shared
