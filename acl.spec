@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xD5BF9FEB0313653A (agruen@gnu.org)
 #
 Name     : acl
-Version  : 2.3.0
-Release  : 37
-URL      : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.0.tar.gz
-Source0  : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.0.tar.gz
-Source1  : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.0.tar.gz.sig
+Version  : 2.3.1
+Release  : 38
+URL      : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.1.tar.gz
+Source0  : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.1.tar.gz
+Source1  : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.1.tar.gz.sig
 Summary  : A library for POSIX Access Control Lists
 Group    : Development/Tools
 License  : GPL-2.0+ LGPL-2.1
@@ -114,10 +114,10 @@ man components for the acl package.
 
 
 %prep
-%setup -q -n acl-2.3.0
-cd %{_builddir}/acl-2.3.0
+%setup -q -n acl-2.3.1
+cd %{_builddir}/acl-2.3.1
 pushd ..
-cp -a acl-2.3.0 build32
+cp -a acl-2.3.1 build32
 popd
 
 %build
@@ -125,7 +125,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1615503785
+export SOURCE_DATE_EPOCH=1615912561
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -160,11 +160,11 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1615503785
+export SOURCE_DATE_EPOCH=1615912561
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/acl
-cp %{_builddir}/acl-2.3.0/doc/COPYING %{buildroot}/usr/share/package-licenses/acl/b0d007e44cc4ad116e706e639fe38bfdc15a00a3
-cp %{_builddir}/acl-2.3.0/doc/COPYING.LGPL %{buildroot}/usr/share/package-licenses/acl/e101765734390d664b59325b2d644d80d9a6bd9a
+cp %{_builddir}/acl-2.3.1/doc/COPYING %{buildroot}/usr/share/package-licenses/acl/b0d007e44cc4ad116e706e639fe38bfdc15a00a3
+cp %{_builddir}/acl-2.3.1/doc/COPYING.LGPL %{buildroot}/usr/share/package-licenses/acl/e101765734390d664b59325b2d644d80d9a6bd9a
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -245,12 +245,12 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libacl.so.1
-/usr/lib64/libacl.so.1.1.230
+/usr/lib64/libacl.so.1.1.2301
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libacl.so.1
-/usr/lib32/libacl.so.1.1.230
+/usr/lib32/libacl.so.1.1.2301
 
 %files license
 %defattr(0644,root,root,0755)
