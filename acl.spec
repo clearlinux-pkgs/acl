@@ -4,9 +4,10 @@
 #
 # Source0 file verified with key 0xD5BF9FEB0313653A (agruen@gnu.org)
 #
+%define keepstatic 1
 Name     : acl
 Version  : 2.3.1
-Release  : 38
+Release  : 39
 URL      : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.1.tar.gz
 Source0  : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.1.tar.gz
 Source1  : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.1.tar.gz.sig
@@ -125,28 +126,28 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1615912561
+export SOURCE_DATE_EPOCH=1659646594
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
-export FCFLAGS="$FFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
-export FFLAGS="$FFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition "
-%configure --disable-static --enable-nls \
+export CFLAGS="$CFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition "
+export FCFLAGS="$FFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition "
+export FFLAGS="$FFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition "
+%configure  --enable-nls \
 --libexecdir=/usr/lib64 \
 --disable-static \
 --enable-shared
 make  %{?_smp_mflags}
 
 pushd ../build32/
-export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
 export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
-%configure --disable-static --enable-nls \
+%configure  --enable-nls \
 --libexecdir=/usr/lib64 \
 --disable-static \
 --enable-shared   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
@@ -160,16 +161,22 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1615912561
+export SOURCE_DATE_EPOCH=1659646594
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/acl
-cp %{_builddir}/acl-2.3.1/doc/COPYING %{buildroot}/usr/share/package-licenses/acl/b0d007e44cc4ad116e706e639fe38bfdc15a00a3
-cp %{_builddir}/acl-2.3.1/doc/COPYING.LGPL %{buildroot}/usr/share/package-licenses/acl/e101765734390d664b59325b2d644d80d9a6bd9a
+cp %{_builddir}/acl-%{version}/doc/COPYING %{buildroot}/usr/share/package-licenses/acl/b0d007e44cc4ad116e706e639fe38bfdc15a00a3
+cp %{_builddir}/acl-%{version}/doc/COPYING.LGPL %{buildroot}/usr/share/package-licenses/acl/e101765734390d664b59325b2d644d80d9a6bd9a
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
 then
 pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
+if [ -d %{buildroot}/usr/share/pkgconfig ]
+then
+pushd %{buildroot}/usr/share/pkgconfig
 for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
