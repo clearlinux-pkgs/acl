@@ -7,7 +7,7 @@
 %define keepstatic 1
 Name     : acl
 Version  : 2.3.1
-Release  : 39
+Release  : 40
 URL      : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.1.tar.gz
 Source0  : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.1.tar.gz
 Source1  : https://download-mirror.savannah.gnu.org/releases/acl/acl-2.3.1.tar.gz.sig
@@ -114,6 +114,24 @@ Group: Default
 man components for the acl package.
 
 
+%package staticdev
+Summary: staticdev components for the acl package.
+Group: Default
+Requires: acl-dev = %{version}-%{release}
+
+%description staticdev
+staticdev components for the acl package.
+
+
+%package staticdev32
+Summary: staticdev32 components for the acl package.
+Group: Default
+Requires: acl-dev = %{version}-%{release}
+
+%description staticdev32
+staticdev32 components for the acl package.
+
+
 %prep
 %setup -q -n acl-2.3.1
 cd %{_builddir}/acl-2.3.1
@@ -126,7 +144,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1659646594
+export SOURCE_DATE_EPOCH=1659646803
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -137,7 +155,7 @@ export FFLAGS="$FFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sect
 export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition "
 %configure  --enable-nls \
 --libexecdir=/usr/lib64 \
---disable-static \
+--enable-static \
 --enable-shared
 make  %{?_smp_mflags}
 
@@ -149,7 +167,7 @@ export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
 export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %configure  --enable-nls \
 --libexecdir=/usr/lib64 \
---disable-static \
+--enable-static \
 --enable-shared   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
@@ -161,7 +179,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1659646594
+export SOURCE_DATE_EPOCH=1659646803
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/acl
 cp %{_builddir}/acl-%{version}/doc/COPYING %{buildroot}/usr/share/package-licenses/acl/b0d007e44cc4ad116e706e639fe38bfdc15a00a3
@@ -270,6 +288,14 @@ popd
 /usr/share/man/man1/getfacl.1
 /usr/share/man/man1/setfacl.1
 /usr/share/man/man5/acl.5
+
+%files staticdev
+%defattr(-,root,root,-)
+/usr/lib64/libacl.a
+
+%files staticdev32
+%defattr(-,root,root,-)
+/usr/lib32/libacl.a
 
 %files locales -f acl.lang
 %defattr(-,root,root,-)
